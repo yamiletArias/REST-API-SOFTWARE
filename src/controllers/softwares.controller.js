@@ -18,7 +18,7 @@ export const getSoftwareById = async (req, res) => {
     const [results] = await pool.query(querySQL, [req.params.id])
     if(results.length == 0){
       return res.status(404).json({
-        message: 'No eciste el ID'
+        message: 'No existe el ID'
       })
     }
     res.send(results[0])
@@ -70,11 +70,18 @@ export const updateSoftwares = async (req, res) => {
 
     if(results.affectedRows == 0){
       return res.status(404).json({
+        status: false,
         message: 'El ID NO EXISTE'
+      })
+    }else{
+      return res.send({
+        status: true,
+        message: "Registrado correctamente",
       })
     }
     /* res.send("Actualizado correctamente") */
-    res.sendStatus(202)
+    /* res.sendStatus(202) */
+
   }catch{
     console.error("No se puede concretar PUT")
   }
@@ -89,11 +96,16 @@ export const deleteSoftwares = async(req, res) => {
 
     if(results.affectedRows == 0){
       return res.status(404).json({
+        status: false,
         message: 'El ID enviado NO existe'
+      })
+    }else{
+      return res.send({
+        status: true,
+        message: 'Eliminado correctamente'
       })
     }
 
-    res.send({message: 'Eliminado correctamente'})
   }catch{
     console.error("No se puede concentrar DELETE")
   }
